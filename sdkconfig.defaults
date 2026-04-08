@@ -1,0 +1,42 @@
+# ESP32-S3 RID Scanner - ESP-IDF Configuration
+
+# Flash size - match your hardware (ESP32-S3-DevKitC-1-N16R8)
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="16MB"
+
+# Partition table
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+
+# Log level
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_LOG_DEFAULT_LEVEL=3
+
+# ===== BLUETOOTH =====
+CONFIG_BT_ENABLED=y
+CONFIG_BT_BLUEDROID_ENABLED=y
+
+# BLE 5.0 Extended Advertising/Scanning - Required for LE Coded (S=8) PHY
+# This enables reception of both legacy (BLE 4.x) and extended (BLE 5.0) advertisements
+# LE Coded PHY provides 4x range per Open Drone ID BLE Broadcast Spec Section 6
+CONFIG_BT_BLE_50_FEATURES_SUPPORTED=y
+CONFIG_BT_BLE_50_EXTEND_ADV_EN=y
+CONFIG_BT_BLE_50_PERIODIC_ADV_EN=y
+CONFIG_BT_BLE_50_EXTEND_SCAN_EN=y
+CONFIG_BT_BLE_50_EXTEND_SYNC_EN=y
+# CONFIG_BT_BLE_42_FEATURES_SUPPORTED is not set
+
+# BLE connections (we only scan, so minimal)
+CONFIG_BT_ACL_CONNECTIONS=4
+
+# Enable GATT client for scanning
+CONFIG_BT_GATTC_ENABLE=y
+
+# ===== WIFI =====
+CONFIG_ESP_WIFI_ENABLED=y
+
+# We need promiscuous mode for WiFi scanning
+CONFIG_ESP_WIFI_SOFTAP_SUPPORT=n
+
+# ===== FREERTOS =====
+CONFIG_FREERTOS_HZ=1000
