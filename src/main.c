@@ -287,7 +287,10 @@ static void wifi_sniffer_cb(void *buf, wifi_promiscuous_pkt_type_t type) {
     static const uint8_t nan_dest[6] = {0x51, 0x6f, 0x9a, 0x01, 0x00, 0x00};
     if (memcmp(nan_dest, &payload[4], 6) == 0) {
         g_nan_dest_match++;
-        int parse_result = odid_wifi_receive_message_pack_nan_action_frame(&UAS_data, NULL, payload, length);
+        // The decoder copies the sender address into this buffer (wifi.c,
+        // memcpy(mac, mgmt->sa, 6)), so it must not be null.
+        char nan_mac[6];
+        int parse_result = odid_wifi_receive_message_pack_nan_action_frame(&UAS_data, nan_mac, payload, length);
         if (parse_result == 0) {
             g_nan_parse_ok++;
             g_last_detection_ms = millis();
